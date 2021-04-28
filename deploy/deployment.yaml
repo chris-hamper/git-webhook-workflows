@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: git-webhook-workflows
+spec:
+  selector:
+    matchLabels:
+      app: git-webhook-workflows
+  template:
+    metadata:
+      labels:
+        app: git-webhook-workflows
+    spec:
+      containers:
+      - name: git-webhook-workflows
+        image: git-webhook-workflows
+        env:
+        - name: POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        resources:
+          limits:
+            memory: "64Mi"
+            cpu: "50m"
+        ports:
+        - name: http
+          containerPort: 5000

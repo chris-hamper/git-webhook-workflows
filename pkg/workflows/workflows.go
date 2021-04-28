@@ -5,8 +5,6 @@ import (
 	"flag"
 	"fmt"
 	"os"
-	"os/user"
-	"path/filepath"
 	"strings"
 
 	wfv1 "github.com/argoproj/argo-workflows/v3/pkg/apis/workflow/v1alpha1"
@@ -23,12 +21,8 @@ var (
 )
 
 func init() {
-	// Get current user to determine home directory
-	usr, err := user.Current()
-	panicOnError(err)
-
-	// Get kubeconfig file location
-	kubeconfig := flag.String("kubeconfig", filepath.Join(usr.HomeDir, ".kube", "config"), "(optional) absolute path to the kubeconfig file")
+	// Try to get kubeconfig from the command line or environment
+	kubeconfig := flag.String("kubeconfig", os.Getenv("KUBECONFIG"), "(optional) absolute path to the kubeconfig file")
 	flag.Parse()
 
 	// Use the current context in kubeconfig

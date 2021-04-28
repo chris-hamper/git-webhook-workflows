@@ -1,0 +1,14 @@
+apiVersion: skaffold/v2beta14
+kind: Config
+metadata:
+  name: git-webhook-workflows
+build:
+  artifacts:
+  - image: git-webhook-workflows
+    docker:
+      dockerfile: Dockerfile
+deploy:
+  kubectl:
+    manifests:
+    - deploy/deployment.yaml
+    - deploy/service.yaml
